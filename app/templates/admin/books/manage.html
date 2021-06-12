@@ -1,0 +1,133 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Borrowing management{% endblock %}
+
+
+{% block navbar %}
+    <li class="active"><a href="{{ url_for('main.adminBookList') }}">book list</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookManage') }}">Borrowing management</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookLoansList') }}">Borrowing records</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookLoansDueList') }}">Borrowing records</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBorrower') }}">Borrower</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <!-- left column -->
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+            <div class="alert alert-{{ category }}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+        <div class="col-md-6">
+
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Borrow books</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <form class="form-horizontal" method="post">
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="id" class="col-sm-3 control-label">BookId</label>
+                            <div class="col-sm-8">
+                                {{ loan_form.BookId(class_="form-control",placeholder="") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id" class="col-sm-3 control-label">BranchId</label>
+                            <div class="col-sm-8">
+                                {{ loan_form.BranchId(class_="form-control",placeholder="") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-3 control-label">Name</label>
+
+                            <div class="col-sm-8">
+                                {{ loan_form.Name(class_="form-control",placeholder="") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-3 control-label">Address</label>
+
+                            <div class="col-sm-8">
+                                {{ loan_form.Address(class_="form-control",placeholder="") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="col-sm-3 control-label">Phone</label>
+
+                            <div class="col-sm-8">
+                                {{ loan_form.Phone(class_="form-control",placeholder="") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date" class="col-sm-3 control-label">Few days</label>
+
+                            <div class="col-sm-8">
+                                {{ loan_form.Date(class_="form-control",placeholder="28") }}
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+                            {{ loan_form.csrf_token }}
+                            {{ loan_form.submit(class_="btn btn-info pull-right") }}
+                        </div>
+                        <!-- /.box-footer -->
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <!--/.col (left) -->
+    <!-- right column -->
+    <div class="col-md-6">
+        <!-- Horizontal Form -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Return book</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form class="form-horizontal" method="post">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="id" class="col-sm-3 control-label">BookId</label>
+
+                        <div class="col-sm-8">
+                            {{ return_form.BookId(class_="form-control",placeholder="") }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label">Name</label>
+
+                        <div class="col-sm-8">
+                            {{ return_form.Name(class_="form-control",placeholder="") }}
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        {{ return_form.csrf_token }}
+                        {{ return_form.submit(class_="btn btn-info pull-right") }}
+                    </div>
+                    <!-- /.box-footer -->
+            </form>
+        </div>
+        <!-- /.box -->
+    </div>
+    <!--/.col (right) -->
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function initPage() {
+        }
+    </script>
+{% endblock %}

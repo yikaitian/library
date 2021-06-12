@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Book query{% endblock %}
+{% block navbar %}
+    <li class="active"><a href="{{ url_for('main.adminBookList') }}">book list</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookManage') }}">Borrowing management</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookLoansList') }}">Borrowing records</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookLoansDueList') }}">Borrowing records</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBorrower') }}">Borrower</a></li>
+{% endblock %}
+
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            {% include 'message.html' %}
+        </div>
+
+        <div class="box-tools">
+            <form method="GET" action="" class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <label>Branch</label>
+                    <select class="form-control" name="branch">
+                        <option value="0">ALL</option>
+                        {% for row in branch %}
+                            <option value="{{ row.BranchId }}">{{ row.BranchName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="search" value="" class="span2 btn-title form-control"
+                           placeholder="Enter book name or author name">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <div class="box-body">
+            {% if form %}
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>PublisherName</th>
+                        <th>AuthorName</th>
+                        <th>DueDate</th>
+                    </tr>
+                    {% for row in form.content %}
+                        <tr>
+                            <td>{{ row.BookId }}</td>
+                            <td>{{ row.Title }}</td>
+                            <td>{{ row.PublisherName }}</td>
+                            <td>{{ row.AuthorName }}</td>
+                            <td>{% if row.DueDate != None %}{{ row.DueDate }}{% endif %}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+
+        <div class="box-footer clearfix">
+            {% if form %}
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    {% for i in range(1, form.total_page+ 1) %}
+                        {% if i == form.page %}
+                            <li><a href="?page={{ i }}"><b>{{ i }}</b></a></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function initPage() {
+        }
+    </script>
+{% endblock %}

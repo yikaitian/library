@@ -1,0 +1,83 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Borrowing records{% endblock %}
+{% block navbar %}
+    <li class="active"><a href="{{ url_for('main.adminBookList') }}">book list</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookManage') }}">Borrowing management</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookLoansList') }}">Borrowing records</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBookLoansDueList') }}">Borrowing records</a></li>
+    <li class="active"><a href="{{ url_for('main.adminBorrower') }}">Borrower</a></li>
+{% endblock %}
+
+{% block content %}
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            {% include 'message.html' %}
+        </div>
+
+        <div class="box-tools">
+            <form method="GET" action="" class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" name="search" value="" class="span2 btn-title form-control"
+                           placeholder="Enter the book ID or the name of the borrower">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+        <div class="box-body">
+            {% if form %}
+                <table class="table table-bordered">
+                    <tr>
+                        <th>BookId</th>
+                        <th>Title</th>
+                        <th>BranchName</th>
+                        <th>Name</th>
+                        <th>DateOut</th>
+                        <th>DueDate</th>
+                        <th>returned</th>
+                    </tr>
+                    {% for row in form.content %}
+                        <tr>
+                            <td>{{ row.BookId }}</td>
+                            <td>{{ row.Title }}</td>
+                            <td>{{ row.BranchName }}</td>
+                            <td>{{ row.Name }}</td>
+                            <td>{{ row.DateOut }}</td>
+                            <td>{{ row.DueDate }}</td>
+                            <td>{% if row.returned == 1 %}
+                                <small class="label label-success"><i class="fa fa-clock-o"></i>Returned
+                                </small>{% else %}
+                                <small class="label label-danger"><i class="fa fa-clock-o"></i>Borrowing
+                                </small> {% endif %}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+
+        <div class="box-footer clearfix">
+            {% if form %}
+                <ul class="pagination pagination-sm no-margin pull-right">
+                    <li><a href="#">&laquo;</a></li>
+                    {% for i in range(1, form.total_page+ 1) %}
+                        {% if i == form.page %}
+                            <li><a href="?page={{ i }}"><b>{{ i }}</b></a></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <li><a href="#">&raquo;</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function initPage() {
+        }
+    </script>
+{% endblock %}
